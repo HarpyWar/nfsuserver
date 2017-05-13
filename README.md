@@ -22,6 +22,15 @@ make
 
 Download `nfsuserver.1.0.2.win32.zip` from [Releases](https://github.com/HarpyWar/nfsuserver/releases) or use Visual Studio to compile own executable.
 
+To install a server as a Windows Service run:
+```
+nfsuserver.exe -i
+```
+To uninstall run:
+```
+nfsuserver.exe -u
+```
+
 
 ## Server Configuration
 
@@ -47,17 +56,6 @@ banv4=0
 2. Create a new file `news` with a custom news contents.
 
 3. After first start `server.log` should be created. After first user login a database `rusers.dat` with users should be created.
-
-# Windows Service
-
-To install a server as a Windows Service run:
-```
-nfsuserver.exe -i
-```
-To uninstall run:
-```
-nfsuserver.exe -u
-```
 
 
 ## Client Configuration
