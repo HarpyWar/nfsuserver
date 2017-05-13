@@ -1,9 +1,9 @@
 
 # Need For Speed: Underground Server
 
-This server was developed by (3 PriedeZ)[http://3priedez.net]
+This server was initially developed by [3 PriedeZ](http://3priedez.net)
 
-It doesn't support NFSU2, only NFSU.
+It doesn't support NFSU2, only first NFSU.
 
 
 ## Server Configuration
@@ -27,7 +27,7 @@ banv3=0
 banv4=0
 ```
 
-2. Create a new file `news` with your custom news contents.
+2. Create a new file `news` with a custom news contents.
 
 3. After first start `server.log` should be created. After first user login a database `rusers.dat` with users should be created.
 
@@ -45,11 +45,11 @@ nfsuserver.exe -u
 
 ## Client Configuration
 
-1. Install a game client (Need for Speed: Underground)[https://en.wikipedia.org/wiki/Need_for_Speed:_Underground]
+1. Install a game client [Need for Speed: Underground](https://en.wikipedia.org/wiki/Need_for_Speed:_Underground)
 
-2. Download and unzip [nfsupatch14.zip](https://github.com/HarpyWar/nfsuserver/releases/download/client/nfsupatch14.zip) into the game folder, run `dev-rtp.exe` to upgrage the game client to version 1.4
+2. Download and unzip [nfsupatch14.zip](https://github.com/HarpyWar/nfsuserver/releases/download/client/nfsupatch14.zip) into your game folder, run `dev-rtp.exe` to upgrage the game client to version 1.4
 
-3. (Optional) Download [speed14-nocd.zip](https://github.com/HarpyWar/nfsuserver/releases/download/client/speed14-nocd.zip) into the game folder with replacement of `Speed.exe` (you will be able to run the game without a CD)
+3. *(Optional)* Download and unzip [speed14-nocd.zip](https://github.com/HarpyWar/nfsuserver/releases/download/client/speed14-nocd.zip) into your game folder with replacement of `Speed.exe` (you will be able to run the game without a CD)
 
 4. Download and run [nfsuclient.exe](https://github.com/HarpyWar/nfsuserver/releases/download/client/nfsuclient.exe)
 
@@ -62,9 +62,9 @@ After a login you will join to a room called `Default`.
 ![NFSU Lobby](http://i.imgur.com/ntGM3VF.jpg)
 
 
-## Docs
+## Documentation
 
-[Explaining Config](https://github.com/HarpyWar/nfsuserver/wiki/Explaining-Config)
-[Modify Channel Names](https://github.com/HarpyWar/nfsuserver/wiki/Modify-Channel-Names)
-[NFSU Server Status](https://github.com/HarpyWar/nfsuserver/wiki/NFSU-Server-Status)
+* [Explaining Config](https://github.com/HarpyWar/nfsuserver/wiki/Explaining-Config)
+* [Modify Channel Names](https://github.com/HarpyWar/nfsuserver/wiki/Modify-Channel-Names)
+* [NFSU Server Status](https://github.com/HarpyWar/nfsuserver/wiki/NFSU-Server-Status)
 
