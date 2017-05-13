@@ -5,6 +5,23 @@ This server was initially developed by [3 PriedeZ](http://3priedez.net)
 
 It doesn't support NFSU2, only first NFSU.
 
+## Server Installation
+
+### Linux
+
+Download static binary from [Releases](https://github.com/HarpyWar/nfsuserver/releases) or build it from sources:
+
+```
+apt-get install git make build-essentials
+git clone https://github.com/pvpgn/pvpgn-server.git
+cd nfsuserver/nfsuserver
+make
+```
+
+### Windows
+
+Download `nfsuserver.1.0.2.win32.zip` from [Releases](https://github.com/HarpyWar/nfsuserver/releases) or use Visual Studio to compile own executable.
+
 
 ## Server Configuration
 
