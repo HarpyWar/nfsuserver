@@ -1,0 +1,35 @@
+# Project: nfsuserver
+# Makefile created by Dev-C++ 4.9.5.0
+
+CC   = g++
+WINDRES = windres.exe
+RES  = 
+OBJ  = nfsuserver2.o objects.o server.o $(RES)
+LIBS =  -L/usr/lib -L/usr/local/lib -llthread
+INCS =  -I/usr/local/include/pthread/linuxthreads
+BIN  = nfsuserver
+CFLAGS = $(INCS) -s -O2 -fexpensive-optimizations
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before nfsuserver all-after
+
+
+clean: clean-custom
+	rm -f $(OBJ) $(BIN); echo $(LIBS)
+
+$(BIN): test_for_linuxthreads $(OBJ)
+	$(CC) $(OBJ) -o $(BIN) $(LIBS) $(CFLAGS)
+
+nfsuserver2.o: nfsuserver2.cpp
+	$(CC) -c nfsuserver2.cpp -o nfsuserver2.o $(CFLAGS)
+
+server.o: server.cpp
+	$(CC) -c server.cpp -o server.o $(CFLAGS)
+
+objects.o: objects.cpp
+	$(CC) -c objects.cpp -o objects.o $(CFLAGS)
+
+test_for_linuxthreads:
+	@if [ ! -f /usr/local/include/pthread/linuxthreads/pthread.h ]; then echo --- linuxthreads not found; echo --- Please install port /usr/ports/devel/linuxthreads; exit 1; fi
+
