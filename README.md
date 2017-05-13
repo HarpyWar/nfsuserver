@@ -13,7 +13,7 @@ Download static binary from [Releases](https://github.com/HarpyWar/nfsuserver/re
 
 ```
 apt-get install git make build-essentials
-git clone https://github.com/pvpgn/pvpgn-server.git
+git clone https://github.com/HarpyWar/nfsuserver.git
 cd nfsuserver/nfsuserver
 make
 ```
