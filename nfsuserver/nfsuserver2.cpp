@@ -2,6 +2,7 @@
 //
 #ifdef _WIN32
 	#pragma comment(lib, "ws2_32.lib")
+	#include <cwchar>
 #endif
 
 #include "win_nix.h"
@@ -59,7 +60,7 @@ bool running = true;
 //connection queues
 ConnectionsClass RedirectConnections, ClientConnections, ReportingConnections;
 
-#define NFSU_LAN_VERSION "1.0.2"
+#define NFSU_LAN_VERSION "1.0.3"
 #define DEFAULT_NEWS "-=-=-=-\nDefault news\nPlz tell server admin to make news file ;)\n-=-=-=-=-"
 
 ServerClass Server; //core ;)
@@ -1494,19 +1495,20 @@ VOID WINAPI ServiceCtrlHandler(DWORD dwControl)
 #endif
 
 bool InitServer(){
-#ifdef NT_SERVICE
-	EnableLogFile=GetPrivateProfileInt("NFSU:LAN", "EnableLogFile", 1, "nfsu.ini");
+
+#ifdef WIN32
+	EnableLogFile=GetPrivateProfileInt("NFSU:LAN", "EnableLogFile", 1, ".\\nfsu.ini");
 	EnableLogScreen=false;
-	RewriteLogFile=GetPrivateProfileInt("NFSU:LAN", "RewriteLogFile", 1, "nfsu.ini");
-	DisableTimeStamp=GetPrivateProfileInt("NFSU:LAN", "DisableTimeStamp", 0, "nfsu.ini");
-	Verbose=GetPrivateProfileInt("NFSU:LAN", "Verbose", 0, "nfsu.ini");
-	RegisterGlobal=GetPrivateProfileInt("NFSU:LAN", "RegisterGlobal", 0, "nfsu.ini");
-	LogAllTraffic=GetPrivateProfileInt("NFSU:LAN", "LogAllTraffic", 0, "nfsu.ini");
-	BanV1=GetPrivateProfileInt("NFSU:LAN", "BanV1", 0, "nfsu.ini");
-	BanV2=GetPrivateProfileInt("NFSU:LAN", "BanV2", 0, "nfsu.ini");
-	BanV3=GetPrivateProfileInt("NFSU:LAN", "BanV3", 0, "nfsu.ini");
-	BanV4=GetPrivateProfileInt("NFSU:LAN", "BanV4", 0, "nfsu.ini");
-	GetPrivateProfileString("NFSU:LAN", "ServerName", "LAN Service server", Server.Name, 100, "nfsu.ini");
+	RewriteLogFile=GetPrivateProfileInt("NFSU:LAN", "RewriteLogFile", 1, ".\\nfsu.ini");
+	DisableTimeStamp=GetPrivateProfileInt("NFSU:LAN", "DisableTimeStamp", 0, ".\\nfsu.ini");
+	Verbose=GetPrivateProfileInt("NFSU:LAN", "Verbose", 0, ".\\nfsu.ini");
+	RegisterGlobal=GetPrivateProfileInt("NFSU:LAN", "RegisterGlobal", 0, ".\\nfsu.ini");
+	LogAllTraffic=GetPrivateProfileInt("NFSU:LAN", "LogAllTraffic", 0, ".\\nfsu.ini");
+	BanV1=GetPrivateProfileInt("NFSU:LAN", "BanV1", 0, ".\\nfsu.ini");
+	BanV2=GetPrivateProfileInt("NFSU:LAN", "BanV2", 0, ".\\nfsu.ini");
+	BanV3=GetPrivateProfileInt("NFSU:LAN", "BanV3", 0, ".\\nfsu.ini");
+	BanV4=GetPrivateProfileInt("NFSU:LAN", "BanV4", 0, ".\\nfsu.ini");
+	GetPrivateProfileString("NFSU:LAN", "ServerName", "LAN Service server", Server.Name, 100, ".\\nfsu.ini");
 #endif
 
 	time(&curtime);
@@ -1848,6 +1850,24 @@ VOID WINAPI ServiceMain( DWORD argc, LPTSTR *argv )
 
 
 int main(int argc, char* argv[]){
+
+#ifdef WIN32
+	WCHAR path[MAX_PATH];
+	DWORD dwRet;
+
+	GetModuleFileNameW(NULL, path, MAX_PATH);
+	for (int i = std::wcslen(path) - 1; i > 0; i--)
+	{
+		if (path[i] == '\\')
+		{
+			path[i] = '\0';
+			break;
+		}
+	}
+	// set working directory to the program executing path
+	SetCurrentDirectoryW(path);
+#endif
+
 	for(int k=0;k<30;k++) arr[k]=(char*)&arr2[k];
 #ifdef NT_SERVICE	
 //	The SERVICE_TABLE_ENTRY structure is used by the StartServiceCtrlDispatcher function
