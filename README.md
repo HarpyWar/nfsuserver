@@ -20,16 +20,20 @@ make
 
 ### Windows
 
-Download `nfsuserver.1.0.2.win32.zip` from [Releases](https://github.com/HarpyWar/nfsuserver/releases) or use Visual Studio to compile own executable.
+Download `nfsuserver.1.0.3.win32.zip` from [Releases](https://github.com/HarpyWar/nfsuserver/releases) or use Visual Studio to compile own executable (uncomment [NT_SERVICE](https://github.com/HarpyWar/nfsuserver/blob/master/nfsuserver/win_nix.h#L5) flag for Windows service mode.).
+
+`nfsuserver2.exe` is for normal start, not a service.
 
 To install a server as a Windows Service run:
 ```
-nfsuserver.exe -i
+nfsuserver2_svc.exe -i
 ```
 To uninstall run:
 ```
-nfsuserver.exe -u
+nfsuserver2_svc.exe -u
 ```
+
+
 
 
 ## Server Configuration
