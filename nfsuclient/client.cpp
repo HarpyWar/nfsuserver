@@ -12,7 +12,7 @@
 #include <malloc.h>
 #include "resource.h"
 #include "servers.h"
-#include "..\objects.h"
+#include "..\nfsuserver\objects.h"
 #include <Tlhelp32.h>
 
 ClServersClass Servers;
