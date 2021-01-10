@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="client2"
+	Name="nfsuclient2"
 	ProjectGUID="{FD1E59EF-EBDC-48F9-9F11-AFAC09171770}"
 	Keyword="Win32Proj">
 	<Platforms>
@@ -31,10 +31,10 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)/client2.exe"
+				OutputFile="$(OutDir)/nfsuclient2.exe"
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile="$(OutDir)/client2.pdb"
+				ProgramDatabaseFile="$(OutDir)/nfsuclient2.pdb"
 				SubSystem="2"
 				TargetMachine="1"/>
 			<Tool
@@ -75,7 +75,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)/client2.exe"
+				OutputFile="$(OutDir)/nfsuclient2.exe"
 				LinkIncremental="1"
 				GenerateDebugInformation="TRUE"
 				SubSystem="2"

@@ -2,3 +2,5 @@
 Debug
 Release
 *.user
+*.aps
+*.dat
