@@ -1,4 +1,4 @@
-// Microsoft Visual C++ generated resource script.
+//Microsoft Developer Studio generated resource script.
 //
 #include "resource.h"
 
@@ -29,12 +29,12 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE 
+1 TEXTINCLUDE MOVEABLE PURE 
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE 
+2 TEXTINCLUDE MOVEABLE PURE 
 BEGIN
     "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
     "#include ""windows.h""\r\n"
@@ -42,7 +42,7 @@ BEGIN
     "\0"
 END
 
-3 TEXTINCLUDE 
+3 TEXTINCLUDE MOVEABLE PURE 
 BEGIN
     "\r\n"
     "\0"
@@ -55,11 +55,11 @@ END
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Latvian resources
+// Unknown language: 0x26, 0x1 resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_LVI)
 #ifdef _WIN32
-LANGUAGE LANG_LATVIAN, SUBLANG_DEFAULT
+LANGUAGE 0x26, 0x1
 #pragma code_page(1257)
 #endif //_WIN32
 
@@ -69,11 +69,11 @@ LANGUAGE LANG_LATVIAN, SUBLANG_DEFAULT
 //
 
 IDD_MAIN DIALOGEX 0, 0, 368, 175
-STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | 
-    WS_CAPTION | WS_SYSMENU
+STYLE DS_MODALFRAME | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | 
+    WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW
-CAPTION "NFS:U LAN Client configurator (c) 3 PriedeZ"
-FONT 8, "Microsoft Sans Serif", 0, 0, 0x1
+CAPTION "NFS:U LAN Client configurator v1.1"
+FONT 8, "Microsoft Sans Serif"
 BEGIN
     CONTROL         "",IDC_SERVERLIST,"SysListView32",LVS_REPORT | 
                     LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | 
@@ -87,13 +87,16 @@ BEGIN
                     BS_FLAT
     CHECKBOX        "Delete server",IDC_DELETE,7,55,82,14,BS_PUSHLIKE | 
                     BS_FLAT | WS_DISABLED
-    CHECKBOX        "Get active serverlist",IDC_GETLIST,7,154,82,14,
+    CHECKBOX        "Get public serverlist",IDC_GETLIST,7,117,82,14,
                     BS_PUSHLIKE | BS_FLAT
+    CHECKBOX        "Get Game",IDC_DOWNLOAD,7,154,38,14,BS_PUSHLIKE | 
+                    BS_FLAT,WS_EX_DLGMODALFRAME
+    CHECKBOX        "Help",IDC_HELP,51,154,38,14,BS_PUSHLIKE | BS_FLAT,
+                    WS_EX_DLGMODALFRAME | WS_EX_ACCEPTFILES
 END
 
 IDD_ADD DIALOGEX 0, 0, 296, 28
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | 
-    WS_SYSMENU
+STYLE DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Add new server"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
@@ -110,7 +113,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO MOVEABLE PURE 
 BEGIN
     IDD_MAIN, DIALOG
     BEGIN
@@ -138,8 +141,8 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_MAIN                ICON                    "3priedez.ico"
-#endif    // Latvian resources
+IDI_MAIN                ICON    DISCARDABLE     "3priedez.ico"
+#endif    // Unknown language: 0x26, 0x1 resources
 /////////////////////////////////////////////////////////////////////////////
 
 

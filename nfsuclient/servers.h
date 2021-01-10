@@ -12,7 +12,7 @@ class ClServerClass {
 		bool IsOnline;
 		bool IsFav;
 		ClServerClass *Next;
-		void Update ();
+		bool Update ();
 	char Version[100];
 };
 class ClServersClass {

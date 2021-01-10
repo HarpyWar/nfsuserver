@@ -420,6 +420,12 @@ BOOL CALLBACK MainDlgProc( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
 					EnableWindow (GetDlgItem (dwnd, IDC_REFRESH), !IsDlgButtonChecked (hwndDlg, IDC_LAN));
 					EnableWindow (GetDlgItem (dwnd, IDC_GETLIST), !IsDlgButtonChecked (hwndDlg, IDC_LAN));
 					break;
+				case IDC_HELP:
+					ShellExecute(0, 0, "https://github.com/HarpyWar/nfsuserver/issues", 0, 0, SW_SHOW);
+					break;
+				case IDC_DOWNLOAD:
+					ShellExecute(0, 0, "http://nfsug.harpywar.com/download/nfsu_v1.4.zip", 0, 0, SW_SHOW);
+					break;
 			}
 			break;
 		case WM_INITDIALOG:

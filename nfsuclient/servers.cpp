@@ -31,7 +31,61 @@ ClServerClass *ClServersClass::ServerFromIP( unsigned long ip ) {
 	return NULL;
 } ;
 
-void ClServerClass::Update() {
+
+
+bool checkPortStatus(long ip, int port, int timeout)
+{
+	TIMEVAL Timeout;
+	Timeout.tv_sec = timeout;
+	Timeout.tv_usec = 0;
+	struct sockaddr_in address;  /* the libc network address data structure */
+
+	SOCKET sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+
+	address.sin_addr.s_addr = ip; /* assign the address */
+	address.sin_port = htons(port);            /* translate int2port num */
+	address.sin_family = AF_INET;
+
+	//set the socket in non-blocking
+	unsigned long iMode = 1;
+	int iResult = ioctlsocket(sock, FIONBIO, &iMode);
+	if (iResult != NO_ERROR)
+	{
+		printf("ioctlsocket failed with error: %ld\n", iResult);
+	}
+
+	if (connect(sock, (struct sockaddr*)&address, sizeof(address)) == false)
+	{
+		return false;
+	}
+
+	// restart the socket mode
+	iMode = 0;
+	iResult = ioctlsocket(sock, FIONBIO, &iMode);
+	if (iResult != NO_ERROR)
+	{
+		printf("ioctlsocket failed with error: %ld\n", iResult);
+	}
+
+	fd_set Write, Err;
+	FD_ZERO(&Write);
+	FD_ZERO(&Err);
+	FD_SET(sock, &Write);
+	FD_SET(sock, &Err);
+
+	// check if the socket is ready
+	select(0, NULL, &Write, &Err, &Timeout);
+	if (FD_ISSET(sock, &Write))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+
+
+bool ClServerClass::Update() {
 	LV_ITEM item;
 	LVFINDINFO find;
 
@@ -93,16 +147,25 @@ void ClServerClass::Update() {
 		memcpy (&remote_sockaddr_in.sin_addr.S_un.S_addr, hostInfo->h_addr_list[0], hostInfo->h_length);
 	} else {
 		remote_sockaddr_in.sin_addr.s_addr = inet_addr (IP);
-		if (remote_sockaddr_in.sin_addr.s_addr == INADDR_NONE) return;
+		if (remote_sockaddr_in.sin_addr.s_addr == INADDR_NONE) 
+			return false;
 	}
 
 	ip = remote_sockaddr_in.sin_addr.s_addr;
 
+	// check with timeout 1 second
+	if (!checkPortStatus(remote_sockaddr_in.sin_addr.s_addr, 10800, 1))
+		return false;
+
+
 	SOCKET sock = socket (AF_INET, SOCK_STREAM, 0);
 
-	if (sock == INVALID_SOCKET) return;
+	if (sock == INVALID_SOCKET)
+		return false;
+
 
 	if (connect (sock, (const sockaddr *)&remote_sockaddr_in, remote_sockaddr_length) == 0) {
+		
 		len = recv (sock, buf, 1024, 0);
 		if (len > 0) {
 			IsOnline = true;
@@ -188,8 +251,11 @@ void ClServerClass::Update() {
 		}
 	}
 
+
 	closesocket (sock);
-} ;
+	return IsOnline;
+};
+
 
 void ClServersClass::RemoveServer( ClServerClass * Server ) {
 	if (Count == 1) {
@@ -269,7 +335,8 @@ void ClServersClass::Update() {
 	ClServerClass *temp = First;
 
 	while (temp != NULL) {
-		temp->Update ();
+		if (!temp->Update() && !temp->IsFav)
+			this->RemoveServer(temp);
 		temp = temp->Next;
 	}
 } ;
@@ -277,7 +344,7 @@ void ClServersClass::UpdateFromWeb() {
 	char fname[1024];
 	char buf[1024];
 	srand (time (NULL));
-	sprintf (buf, "http://3priedez.net/nfsug/get_list.py?%u", rand ());
+	sprintf (buf, "http://nfsug.harpywar.com/tracker/get_list.php?%u", rand ());
 
 	if (URLDownloadToCacheFile (NULL, buf, fname, 1024, 0, NULL) == S_OK) {
 		FILE *fil;
@@ -292,14 +359,14 @@ void ClServersClass::UpdateFromWeb() {
 		while (fgets (fname, 100, fil) != NULL) {
 			fname[strlen (fname) - 1] = 0;
 			if (strlen (fname) > 3) {
-				ip = atoi (fname);
+				ip = strtoll(fname, nullptr, 10);
 				if (ServerFromIP (ip) == NULL) {
 					temp = (ClServerClass *)calloc (1, sizeof (ClServerClass));
 					an.S_un.S_addr = ip;
 					strcpy (temp->IP, inet_ntoa (an));
 					temp->IsFav = true;
 					AddServer (temp);
-					temp->Update ();
+					temp->Update();
 				}
 			}
 		}
