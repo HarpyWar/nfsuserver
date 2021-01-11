@@ -1573,7 +1573,7 @@ void readOptionStr(char const *key, char val[]) {
 	std::string line;
 	while (std::getline(infile, line))
 	{
-		if (line[0] == '#')
+		if (line[0] == '#' || line[0] == '\t' || line[0] == ' ' || line[0] == '\0')
 			continue;
 
 		// case insensitive comparison for key
