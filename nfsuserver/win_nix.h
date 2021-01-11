@@ -9,6 +9,7 @@
 	#include <math.h>
 
 	#ifdef _WIN32
+		#include <Ws2tcpip.h>
 		#ifdef NT_SERVICE
 			#include <windows.h>
 			#include <Winsvc.h>

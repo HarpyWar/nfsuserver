@@ -1,3 +1,4 @@
+
 struct RegUser {
 	char Username[100];
 	char Personas[4][100];
@@ -147,6 +148,9 @@ class ServerClass {
 	public:
 		//SessionsClass Sessions;
 		char Name[100];
+		char ServerIP[100];
+		char ServerExternalIP[100];
+		char WelcomeMessage[100];
 		time_t Startup;
 		UsersClass Users;
 		RoomsClass Rooms;
