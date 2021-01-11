@@ -21,7 +21,7 @@ make
 
 ### Windows
 
-Download `nfsuserver.1.0.4.win32.zip` from [Releases](https://github.com/HarpyWar/nfsuserver/releases) or use Visual Studio to build own executable (uncomment [NT_SERVICE](https://github.com/HarpyWar/nfsuserver/blob/master/nfsuserver/win_nix.h#L5) flag for Windows service mode.).
+Download `nfsuserver.1.0.4.win32.zip` from [Releases](https://github.com/HarpyWar/nfsuserver/releases) or use Visual Studio to build own executable (uncomment [NT_SERVICE](https://github.com/HarpyWar/nfsuserver/blob/master/nfsuserver/win_nix.h#L5) flag for Windows service mode.). For compilation you have to install [Windows SDK](https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk/).
 
 `nfsuserver.exe` is for normal start, not a service.
 
