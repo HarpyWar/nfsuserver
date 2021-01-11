@@ -1714,7 +1714,7 @@ bool InitServer(){
 
 
 	if (Server.ServerIP[0] == '\0')
-		strcpy(Server.Name, "0.0.0.0");
+		strcpy(Server.ServerIP, "0.0.0.0");
 
 	//reading news;
 	LoadNews();
