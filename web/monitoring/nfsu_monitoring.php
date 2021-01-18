@@ -21,14 +21,14 @@ else
 	preg_match_all("/([ABCDEFGH]{1})\.([A-Za-z0-9\.]{0,})\|(\d+)\|\[([A-Za-z0-9]{0,})\|{0,}\]/Ssi", $string, $array);
 //	preg_match_all("/([ABCDEFGH]{1})\.([A-Za-z0-9]{0,})\|(\d+)\|\[([A-Za-z0-9]{0,})\|{0,}\]/Ssi", $string, $array);
 	$rooms = array(
-	'A'=>'Рейтинговая - Круг:',
-	'B'=>'Рейтинговая - Спринт:',
-	'C'=>'Рейтинговая - Скольжение:',
-	'D'=>'Рейтинговая - Авто:',
-	'E'=>'Нерейтинговая - Круг:',
-	'F'=>'Нерейтинговая - Спринт:',
-	'G'=>'Нерейтинговая - Скольжение:',
-	'H'=>'Нерейтинговая - Авто:',
+	'A'=>'Ranked - Circuit:',
+	'B'=>'Ranked - Sprint:',
+	'C'=>'Ranked - Drift:',
+	'D'=>'Ranked - Drag:',
+	'E'=>'Unranked - Circuit:',
+	'F'=>'Unranked - Sprint:',
+	'G'=>'Unranked - Drift:',
+	'H'=>'Unranked - Drag:',
 );
 
 $days = floor($array0[3]/86400);
@@ -48,7 +48,7 @@ $seconds = ($array0[3] - $days*86400 - $hours*3600 - $minutes*60);
   <td>
 	<table width="100%" border="0" cellspacing="1" cellpadding="1">
 	<tr class="listhead">
-		<th align="center">В комнатах</th><th align="center">Игроков</th><th align="center">Ники</th>
+		<th align="center">In rooms</th><th align="center">Players</th><th align="center">Names</th>
 </tr>
 <?php
 	$total = 0;
@@ -63,7 +63,7 @@ $seconds = ($array0[3] - $days*86400 - $hours*3600 - $minutes*60);
 	}
 ?>
 	<tr class="listhead">
-		<th align="center">Всего в комнатах</th><th align="center"><?php echo $total; ?></th><th align="center"></th>
+		<th align="center">Total in rooms</th><th align="center"><?php echo $total; ?></th><th align="center"></th>
 	</tr>
       </table>
     </td>

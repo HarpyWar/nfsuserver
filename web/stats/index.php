@@ -183,7 +183,7 @@ else
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>NFS:U LAN Server "<?php echo($servername); ?>" @ <?=$server_ip;?> : <? 
+<title>NFS:U LAN Server "<?php echo($servername); ?>" @ <?p$server_ip;?> : <?php 
 	if($msg)
 		echo "Offline";
 	else
@@ -274,7 +274,7 @@ td {
 <body>
 <table width="795" border="0" cellpadding="0" cellspacing="0" class="holder">
   <tr align="right" valign="bottom"> 
-    <td height="135" colspan="5">NFS:U Server "<?php echo($servername); ?>" <?php echo($serverversion." (Platform: ".$platform.")"); ?> @ <?=$server_ip;?> : <? 
+    <td height="135" colspan="5">NFS:U Server "<?php echo($servername); ?>" <?php echo($serverversion." (Platform: ".$platform.")"); ?> @ <?=$server_ip;?> : <?php 
 	if($msg)
 		echo "Offline";
 	else
@@ -286,11 +286,11 @@ td {
 	?></td>
   </tr>
   <tr align="right" valign="bottom">
-    <td height="20" colspan="5" align="center"><?
+    <td height="20" colspan="5" align="center"><?php
 	if($msg) echo "<font size=+2><strong>Server is offline</font><br>".$msg."</strong>";
 	?></td>
   </tr>
-<? if(!$msg) { ?>
+<?php if(!$msg) { ?>
   <tr align="center" valign="top"> 
     <td align="left"><img src="ranked.gif" width="41" height="199"></td>
     <td class="tdhs"><?php printRoomTable("A"); ?></td>
@@ -305,7 +305,7 @@ td {
     <td class="tdhs"><?php printRoomTable("G"); ?></td>
     <td class="tdhs"><?php printRoomTable("H"); ?></td>
   </tr>
-<? } ?>
+<?php } ?>
 </table>
 </body>
 </html>
