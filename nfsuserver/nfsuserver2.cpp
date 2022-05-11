@@ -9264,7 +9264,7 @@ threadfunc StatThread(void *Dummy){
 
 	SOCKADDR_IN remote_sockaddr_in;
 	unsigned long remote_sockaddr_length = sizeof(SOCKADDR_IN);	
-	int status;
+	int status, ban_tj_cheat, players_in_race, ban_rooms_creation;
 	RoomClass *tr;
 	RUserClass *tu;
 
@@ -9281,7 +9281,27 @@ threadfunc StatThread(void *Dummy){
 				Log(tempBuff);
 			}
 			status=(int)difftime(curtime, Server.Startup);
-			sprintf(tempBuff, "%u|%u|%u|%s|%s|%s~~~", ClientConnections.Count, Server.Rooms.Count, status, SERVER_PLATFORM, NFSU_LAN_VERSION, Server.Name);
+
+			// ban TJ cheat status (0 - disabled / 1 - enabled)
+			if (BanCheater) {
+				ban_tj_cheat = 1;
+			}
+			else {
+				ban_tj_cheat = 0;
+			}
+			
+			// players in races count
+			players_in_race = Sessions.Count;
+
+			// ban rooms creation status (0 - disabled / 1 - enabled)
+			if (BanRoomsCreation) {
+				ban_rooms_creation = 1;
+			}
+			else {
+				ban_rooms_creation = 0;
+			}
+
+			sprintf(tempBuff, "%u|%u|%u|%s|%s|%s|%u|%u|%u~~~", ClientConnections.Count, Server.Rooms.Count, status, SERVER_PLATFORM, NFSU_LAN_VERSION, Server.Name, ban_tj_cheat, players_in_race, ban_rooms_creation);
 			send(cl, tempBuff, strlen(tempBuff), 0);
 
 			tr=Server.Rooms.First;
