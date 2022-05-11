@@ -1837,4 +1837,3 @@ void ServerClass::SaveStarsDrift(int track) {
 
 	fclose(fil);
 };
-

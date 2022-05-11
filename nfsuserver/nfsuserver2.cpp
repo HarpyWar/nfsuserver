@@ -7830,31 +7830,31 @@ threadfunc ListenerWorker(void *Dummy){
 
 							temp->OutgoingMessages.AddMessage(MakeMessage(buffer, "mesg", NULL, 0));//reply that msg is recv
 
-							if (strncmp(buf + 12, "TEXT", 4) != 0) {
-								if (Verbose) {
-									sprintf(log, "Private message\n");
-									Log(log);
-								}
-								tmp = buf + 17;
-								tmp2 = strchr(tmp, 10);
-								if (tmp2 == NULL)tmp2 = strchr(tmp, 9);
-								if (tmp2 != NULL) {
+							tmp = buf + 17;
+							tmp2 = strchr(tmp, 10);
+							if (tmp2 == NULL) tmp2 = strchr(tmp, 9);
+							if (tmp2 != NULL) {
+								tmp2[0] = 0;
+								if (strncmp(tmp2 + 1, "PRIV", 4) == 0) {
+									if (Verbose) {
+										sprintf(log, "Private message\n");
+										Log(log);
+									}
+									tmp = tmp2 + 6;
+									tmp2 = strchr(tmp, 10);
+									if (tmp2 == NULL) tmp2 = strchr(tmp, 9);
 									tmp2[0] = 0;
 									UserClass* us;
-									us = Server.Users.UserFromUsername(buf + 17);
+									us = Server.Users.UserFromUsername(tmp);
 									if (us != NULL) {
 										if (us->Connection != NULL) {
-											if (tmp2[7] == '0') {
-												sprintf(arr2[0], "F=EP0");
-											}
-											else {
-												sprintf(arr2[0], "F=EP1");
-											}
-											tmp2 += 14;
-											sprintf(arr2[1], "T=%s", tmp2);
+											sprintf(arr2[0], "F=EP5");
+											sprintf(arr2[1], "T=%s", buf + 17);
 											sprintf(arr2[2], "N=%s", user->Personas[user->SelectedPerson]);
-
 											us->Connection->OutgoingMessages.AddMessage(MakeMessage(buffer, "+msg", arr, 3));
+											// reply to author
+											sprintf(arr2[1], "T=%s: %s", us->Personas[us->SelectedPerson], buf + 17);
+											user->Connection->OutgoingMessages.AddMessage(MakeMessage(buffer, "+msg", arr, 3));
 										}
 									}
 									else {
@@ -7865,21 +7865,22 @@ threadfunc ListenerWorker(void *Dummy){
 									}
 								}
 								else {
-									sprintf(log, "Smth wrong with mesg message.\n");
-									Log(log);
+									if (Verbose) {
+										sprintf(log, "Global message\n");
+										Log(log);
+									}
+									if (user->CurrentRoom != NULL) {
+										sprintf(arr2[0], "F=U");
+										sprintf(arr2[1], "T=%s", buf + 17);
+										sprintf(arr2[2], "N=%s", user->Personas[user->SelectedPerson]);
+										BroadCastCommand(user->CurrentRoom->Users, "+msg", arr, 3, buffer);
+									}
 								}
+
 							}
 							else {
-								if (Verbose) {
-									sprintf(log, "Global message\n");
-									Log(log);
-								}
-								if (user->CurrentRoom != NULL) {
-									sprintf(arr2[0], "F=U");
-									sprintf(arr2[1], "T=%s", buf + 17);
-									sprintf(arr2[2], "N=%s", user->Personas[user->SelectedPerson]);
-									BroadCastCommand(user->CurrentRoom->Users, "+msg", arr, 3, buffer);
-								}
+								sprintf(log, "Smth wrong with mesg message.\n");
+								Log(log);
 							}
 						}
 						break;
