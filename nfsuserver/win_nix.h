@@ -7,6 +7,9 @@
 #include <time.h>
 #include <stdio.h>
 #include <math.h>
+#include <stdint.h>
+#include <vector>
+#include <algorithm>
 
 #ifdef _WIN32
 #include <Ws2tcpip.h>
