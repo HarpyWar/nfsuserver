@@ -45,6 +45,8 @@ bool BanV2;
 bool BanV3;
 bool BanV4;
 
+bool BanRoomsCreation;
+
 FILE * logfil = NULL;  //file pointer for logfile
 char logtemp[1100];    //temp variable for logging
 FILE * tlogfil = NULL; //file pointer for traffic logfile
@@ -8057,73 +8059,79 @@ threadfunc ListenerWorker(void *Dummy){
 								sprintf(log, "Create room\n");
 								Log(log);
 							}
-							RoomClass* rom;
-							rom = (RoomClass*)calloc(1, sizeof(RoomClass));
-							rom->Count = 0;
 
-							rom->Games.cid = 1;
-							rom->Games.Count = 0;
-							rom->Games.First = NULL;
+							if (BanRoomsCreation) {
+								temp->OutgoingMessages.AddMessage(MakeMessage(buffer, "roomroom", NULL, 0));
+							}
+							else {
+								RoomClass* rom;
+								rom = (RoomClass*)calloc(1, sizeof(RoomClass));
+								rom->Count = 0;
 
-							strcpy(rom->Name, buf + 17);
-							Server.Rooms.AddRoom(rom);
+								rom->Games.cid = 1;
+								rom->Games.Count = 0;
+								rom->Games.First = NULL;
 
-							sprintf(arr2[0], "IDENT=%u", rom->ID);
-							sprintf(arr2[1], "NAME=%s", rom->Name);
-							sprintf(arr2[2], "HOST=%s", user->Personas[user->SelectedPerson]);
-							sprintf(arr2[3], "DESC=");
-							sprintf(arr2[4], "COUNT=1");
-							sprintf(arr2[5], "LIMIT=50");
-							sprintf(arr2[6], "FLAGS=C");
+								strcpy(rom->Name, buf + 17);
+								Server.Rooms.AddRoom(rom);
 
-							temp->OutgoingMessages.AddMessage(MakeMessage(buffer, "room", arr, 7));
+								sprintf(arr2[0], "IDENT=%u", rom->ID);
+								sprintf(arr2[1], "NAME=%s", rom->Name);
+								sprintf(arr2[2], "HOST=%s", user->Personas[user->SelectedPerson]);
+								sprintf(arr2[3], "DESC=");
+								sprintf(arr2[4], "COUNT=1");
+								sprintf(arr2[5], "LIMIT=50");
+								sprintf(arr2[6], "FLAGS=C");
 
-							sprintf(arr2[0], "I=%u", user->id);
-							sprintf(arr2[1], "N=%s", user->Personas[user->SelectedPerson]);
-							sprintf(arr2[2], "M=%s", user->Username);
-							sprintf(arr2[3], "F=");
-							sprintf(arr2[4], "A=%s", user->IP);
-							sprintf(arr2[5], "S=");
-							sprintf(arr2[6], "X=%s", user->car);
-							sprintf(arr2[7], "R=%s", rom->Name);
-							sprintf(arr2[8], "RI=%u", rom->ID);
-							sprintf(arr2[9], "RF=C");
-							sprintf(arr2[10], "RT=1");
+								temp->OutgoingMessages.AddMessage(MakeMessage(buffer, "room", arr, 7));
 
-							temp->OutgoingMessages.AddMessage(MakeMessage(buffer, "+who", arr, 11));
+								sprintf(arr2[0], "I=%u", user->id);
+								sprintf(arr2[1], "N=%s", user->Personas[user->SelectedPerson]);
+								sprintf(arr2[2], "M=%s", user->Username);
+								sprintf(arr2[3], "F=");
+								sprintf(arr2[4], "A=%s", user->IP);
+								sprintf(arr2[5], "S=");
+								sprintf(arr2[6], "X=%s", user->car);
+								sprintf(arr2[7], "R=%s", rom->Name);
+								sprintf(arr2[8], "RI=%u", rom->ID);
+								sprintf(arr2[9], "RF=C");
+								sprintf(arr2[10], "RT=1");
 
-							rom->AddUser(user, buffer);
+								temp->OutgoingMessages.AddMessage(MakeMessage(buffer, "+who", arr, 11));
 
-							sprintf(arr2[0], "F=CU");
-							sprintf(arr2[1], "T=\"has created the room\"");
-							sprintf(arr2[2], "N=%s", user->Personas[user->SelectedPerson]);
+								rom->AddUser(user, buffer);
 
-							temp->OutgoingMessages.AddMessage(MakeMessage(buffer, "+msg", arr, 3));
+								sprintf(arr2[0], "F=CU");
+								sprintf(arr2[1], "T=\"has created the room\"");
+								sprintf(arr2[2], "N=%s", user->Personas[user->SelectedPerson]);
+
+								temp->OutgoingMessages.AddMessage(MakeMessage(buffer, "+msg", arr, 3));
 
 
-							sprintf(arr2[0], "I=%u", rom->ID);
-							sprintf(arr2[1], "N=%s", rom->Name);
-							sprintf(arr2[2], "H=%s", user->Personas[user->SelectedPerson]);
-							sprintf(arr2[3], "F=CH");
-							sprintf(arr2[4], "T=1");
-							sprintf(arr2[5], "L=25");
-							sprintf(arr2[6], "P=10");
-							sprintf(arr2[7], "A=%s", user->IP);
+								sprintf(arr2[0], "I=%u", rom->ID);
+								sprintf(arr2[1], "N=%s", rom->Name);
+								sprintf(arr2[2], "H=%s", user->Personas[user->SelectedPerson]);
+								sprintf(arr2[3], "F=CH");
+								sprintf(arr2[4], "T=1");
+								sprintf(arr2[5], "L=25");
+								sprintf(arr2[6], "P=10");
+								sprintf(arr2[7], "A=%s", user->IP);
 
-							BroadCastCommand(&Server.Users, "+rom", arr, 8, buffer);
+								BroadCastCommand(&Server.Users, "+rom", arr, 8, buffer);
 
-							sprintf(arr2[0], "PI=%u", user->id);
-							sprintf(arr2[1], "N=%s", user->Personas[user->SelectedPerson]);
-							sprintf(arr2[2], "M=%s", user->Username);
-							sprintf(arr2[3], "F=HU");
-							sprintf(arr2[4], "A=%s", user->IP);
-							sprintf(arr2[5], "P=223");
-							sprintf(arr2[6], "S=");
-							sprintf(arr2[7], "X=%s", user->car);
-							sprintf(arr2[8], "G=0");
-							sprintf(arr2[9], "T=1");
+								sprintf(arr2[0], "PI=%u", user->id);
+								sprintf(arr2[1], "N=%s", user->Personas[user->SelectedPerson]);
+								sprintf(arr2[2], "M=%s", user->Username);
+								sprintf(arr2[3], "F=HU");
+								sprintf(arr2[4], "A=%s", user->IP);
+								sprintf(arr2[5], "P=223");
+								sprintf(arr2[6], "S=");
+								sprintf(arr2[7], "X=%s", user->car);
+								sprintf(arr2[8], "G=0");
+								sprintf(arr2[9], "T=1");
 
-							temp->OutgoingMessages.AddMessage(MakeMessage(buffer, "+usr", arr, 10));
+								temp->OutgoingMessages.AddMessage(MakeMessage(buffer, "+usr", arr, 10));
+							}
 						}
 						break;
 					}
@@ -9453,6 +9461,7 @@ bool InitServer(){
 	BanV2 = readOptionBool("BanV2");
 	BanV3 = readOptionBool("BanV3");
 	BanV4 = readOptionBool("BanV4");
+	BanRoomsCreation = readOptionBool("BanRoomsCreation");
 
 	readOptionStr("Rooms_Ranked_Circuit", rooms_a);
 	readOptionStr("Rooms_Ranked_Sprint", rooms_b);
@@ -9530,6 +9539,7 @@ bool InitServer(){
 	sprintf(log, "BanV2             %d\n", BanV2);				Log(log);
 	sprintf(log, "BanV3             %d\n", BanV3);				Log(log);
 	sprintf(log, "BanV4             %d\n", BanV4);				Log(log);
+	sprintf(log, "BanRoomsCreation  %d\n", BanRoomsCreation);	Log(log);
 						
 	sprintf(log, "-----------\n");				Log(log);
 	sprintf(log, "|  Rooms  |\n");				Log(log);
