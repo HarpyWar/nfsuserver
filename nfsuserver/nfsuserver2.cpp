@@ -46,6 +46,7 @@ bool BanV3;
 bool BanV4;
 
 bool BanRoomsCreation;
+bool BanCheater;
 
 FILE * logfil = NULL;  //file pointer for logfile
 char logtemp[1100];    //temp variable for logging
@@ -186,6 +187,39 @@ void ShiftPersona(UserClass* user, RegUser* tr, int l) {
 	memset(tr->Personas[l + 1], 0, 16);
 };
 
+bool IsCheater(const unsigned char wei, const unsigned char sus, const unsigned char eng, const unsigned char tur,
+	const unsigned char nos, const unsigned char ecu, const unsigned char tra, const unsigned char tir,
+	const unsigned char bra) {
+	unsigned char wei_tj, sus_tj, eng_tj, tur_tj, nos_tj, ecu_tj, tra_tj, tir_tj, bra_tj;
+
+	wei_tj = wei & 0x01;
+	sus_tj = sus & 0x01;
+	eng_tj = eng & 0x01;
+	tur_tj = tur & 0x01;
+	nos_tj = nos & 0x01;
+	ecu_tj = ecu & 0x01;
+	tra_tj = tra & 0x01;
+	tir_tj = tir & 0x01;
+	bra_tj = bra & 0x01;
+
+	// more than 3 TJ's
+	if ((wei_tj + sus_tj + eng_tj + tur_tj + nos_tj + ecu_tj + tra_tj + tir_tj + bra_tj) > 3) {
+		return true;
+	}
+	// if carier car
+	if ((wei_tj + sus_tj + eng_tj + tur_tj + nos_tj + ecu_tj + tra_tj + tir_tj + bra_tj) == 3) {
+		// at least one from first set of TJ's (eng trans tires)
+		if ((eng_tj + tra_tj + tir_tj) < 1) {
+			return true;
+		}
+		// no more than one part of the third set of TJ (weight reduction, suspension, NOS)
+		if ((wei_tj + sus_tj + nos_tj) > 1) {
+			return true;
+		}
+	}
+
+	return false;
+}
 
 void CalcStat(const char* reporter, const char* opp1, const char* opp2, const char* opp3,
 	const int count, const int type, const int track, const int laps, const int place, const int disc) {
@@ -7507,6 +7541,9 @@ threadfunc ListenerWorker(void *Dummy){
 	char resu[1024];
 	char dec_resu[1024];
 
+	char car_b64[9]; // car info in base64 from AUXI replica
+	char car_dec[6]; // decoded car info
+
 	MessageClass *msg;
 	UserClass *user;
 
@@ -8146,9 +8183,44 @@ threadfunc ListenerWorker(void *Dummy){
 									sprintf(log, "Car received\n");
 									Log(log);
 								}
+
 								strcpy(user->car, buf + 17);
 								strcpy(arr2[0], buf + 12);
 								temp->OutgoingMessages.AddMessage(MakeMessage(buffer, "auxi", arr, 1));
+
+								
+								//check car for cheating
+								unsigned char Car_brand, Wei, Sus, Eng, Tur, Nos, Ecu, Tra, Tir, Bra;
+
+								strncpy(car_b64, buf + 17, 9);
+								base64_out(car_b64, car_dec, 9);
+								// get car brand
+								Car_brand = (((car_dec[1] << 4) >> 2) & 0x3F) | ((car_dec[2] >> 6) & 0x03);
+								// get Weight Reduction
+								Wei = ((car_dec[2] << 2) >> 5) & 0x07;
+								// get Suspension
+								Sus = car_dec[2] & 0x07;
+								// get Engine
+								Eng = (car_dec[3] >> 5) & 0x07;
+								// get Turbo
+								Tur = ((car_dec[3] << 3) >> 5) & 0x07;
+								// get NOS
+								Nos = (((car_dec[3] << 6) >> 5) & 0x07) | ((car_dec[4] >> 7) & 0x01);
+								// get ECU
+								Ecu = ((car_dec[4] << 1) >> 5) & 0x07;
+								// get Transmission
+								Tra = ((car_dec[4] << 4) >> 5) & 0x07;
+								// get Tires
+								Tir = (((car_dec[4] << 7) >> 5) & 0x07) | ((car_dec[5] >> 6) & 0x03);
+								// get Brake Kits
+								Bra = ((car_dec[5] << 2) >> 5) & 0x07;
+								if (IsCheater(Wei, Sus, Eng, Tur, Nos, Ecu, Tra, Tir, Bra)) {
+									sprintf(log, "Cheater detected: %s\n", temp->user->Personas[temp->user->SelectedPerson]);
+									Log(log);
+
+									// disconnect a cheater
+									if (BanCheater) temp->Abort = true;
+								}
 							}
 							break;
 						case 't': //auth
@@ -9462,6 +9534,7 @@ bool InitServer(){
 	BanV3 = readOptionBool("BanV3");
 	BanV4 = readOptionBool("BanV4");
 	BanRoomsCreation = readOptionBool("BanRoomsCreation");
+	BanCheater = readOptionBool("BanCheater");
 
 	readOptionStr("Rooms_Ranked_Circuit", rooms_a);
 	readOptionStr("Rooms_Ranked_Sprint", rooms_b);
@@ -9540,6 +9613,7 @@ bool InitServer(){
 	sprintf(log, "BanV3             %d\n", BanV3);				Log(log);
 	sprintf(log, "BanV4             %d\n", BanV4);				Log(log);
 	sprintf(log, "BanRoomsCreation  %d\n", BanRoomsCreation);	Log(log);
+	sprintf(log, "BanCheater        %d\n", BanCheater);			Log(log);
 						
 	sprintf(log, "-----------\n");				Log(log);
 	sprintf(log, "|  Rooms  |\n");				Log(log);
@@ -9978,18 +10052,20 @@ int main(int argc, char* argv[]){
 	signal(SIGPIPE, SIG_IGN);
 #endif
 
-	EnableLogFile=true;
-	EnableLogScreen=true;
-	RewriteLogFile=true;
-	DisableTimeStamp=false;
-	Verbose=false;
-	RegisterGlobal=true;
-	Server.Name[0]=0;
-	LogAllTraffic=false;
-	BanV1=false;
-	BanV2=false;
-	BanV3=false;
-	BanV4=false;
+	EnableLogFile = true;
+	EnableLogScreen = true;
+	RewriteLogFile = true;
+	DisableTimeStamp = false;
+	Verbose = false;
+	RegisterGlobal = true;
+	Server.Name[0] = 0;
+	LogAllTraffic = false;
+	BanV1 = false;
+	BanV2 = false;
+	BanV3 = false;
+	BanV4 = false;
+	BanRoomsCreation = false;
+	BanCheater = false;
 
 #ifndef _WIN32
 	bool daemon=false;
@@ -10042,6 +10118,12 @@ int main(int argc, char* argv[]){
 		if(stricmp(argv[k], "banv4")==0){
 			BanV4=true;
 		}
+		if (stricmp(argv[k], "banrooms") == 0) {
+			BanRoomsCreation = true;
+		}
+		if (stricmp(argv[k], "bancheater") == 0) {
+			BanCheater = true;
+		}
 	}
 
 #ifndef _WIN32
@@ -10080,4 +10162,3 @@ int main(int argc, char* argv[]){
 	DeInitServer();
 	return 0;
 }
-
