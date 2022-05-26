@@ -4,3 +4,6 @@ Release
 *.user
 *.aps
 *.dat
+nfsuserver/*.log
+nfsuserver/*.o
+nfsuserver/nfsuserver
