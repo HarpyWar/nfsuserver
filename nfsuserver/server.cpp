@@ -764,7 +764,7 @@ void RoomClass::AddUser(UserClass* user, char* buffer) {
 	sprintf(arr2[2], "M=%s", user->Username);
 	sprintf(arr2[3], "F=");
 	sprintf(arr2[4], "A=%s", user->IP);
-	sprintf(arr2[5], "S=");
+	sprintf(arr2[5], "S=%s", GetPlayerStat(user->Personas[user->SelectedPerson]));
 	sprintf(arr2[6], "X=%s", user->car);
 	sprintf(arr2[7], "R=%s", Name);
 	sprintf(arr2[8], "RI=%u", ID);
@@ -796,7 +796,7 @@ void RoomClass::RefreshUser(UserClass* user, char* buffer) {
 	sprintf(arr2[3], "F=H");
 	sprintf(arr2[4], "A=%s", user->IP);
 	sprintf(arr2[5], "P=211");
-	sprintf(arr2[6], "S=");
+	sprintf(arr2[6], "S=%s", GetPlayerStat(user->Personas[user->SelectedPerson]));
 	sprintf(arr2[7], "X=%s", user->car);
 
 	if (user->Game != NULL) {
@@ -859,7 +859,7 @@ void RoomClass::ListToUser(UserClass* user, char* buffer) {
 		sprintf(arr2[3], "F=H");
 		sprintf(arr2[4], "A=%s", tmp->User->IP);
 		sprintf(arr2[5], "P=211");
-		sprintf(arr2[6], "S=");
+		sprintf(arr2[6], "S=%s", GetPlayerStat(user->Personas[user->SelectedPerson]));
 		sprintf(arr2[7], "X=%s", tmp->User->car);
 
 		if (tmp->User->Game != NULL) {
