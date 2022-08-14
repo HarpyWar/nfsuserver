@@ -4,7 +4,7 @@
 CC   = g++
 WINDRES = windres.exe
 RES  = 
-OBJ  = nfsuserver2.o objects.o server.o $(RES)
+OBJ  = nfsuserver.o objects.o server.o $(RES)
 LIBS =  -L/usr/lib -L/usr/local/lib -llthread
 INCS =  -I/usr/local/include/pthread/linuxthreads
 BIN  = nfsuserver
@@ -21,8 +21,8 @@ clean: clean-custom
 $(BIN): test_for_linuxthreads $(OBJ)
 	$(CC) $(OBJ) -o $(BIN) $(LIBS) $(CFLAGS)
 
-nfsuserver2.o: nfsuserver2.cpp
-	$(CC) -c nfsuserver2.cpp -o nfsuserver2.o $(CFLAGS)
+nfsuserver.o: nfsuserver.cpp
+	$(CC) -c nfsuserver.cpp -o nfsuserver.o $(CFLAGS)
 
 server.o: server.cpp
 	$(CC) -c server.cpp -o server.o $(CFLAGS)

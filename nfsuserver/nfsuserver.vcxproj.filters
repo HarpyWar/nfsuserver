@@ -15,13 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="nfsuserver2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="objects.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="server.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="nfsuserver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,4 +1,4 @@
-// nfsuserver2.cpp : Defines the entry point for the console application.
+// nfsuserver.cpp : Defines the entry point for the console application.
 //
 #ifdef _WIN32
 #pragma comment(lib, "ws2_32.lib")
@@ -130,7 +130,7 @@ bool sort_Points(StarsDrift a, StarsDrift b) {
 };
 
 
-#define NFSU_LAN_VERSION "2.0.1"
+#define NFSU_LAN_VERSION "1.0.5"
 #define DEFAULT_NEWS "-=-=-=-\nDefault news\nPlz tell server admin to make news.txt file ;)\n-=-=-=-=-"
 
 ServerClass Server; //core ;)
