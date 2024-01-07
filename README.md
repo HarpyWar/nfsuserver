@@ -43,6 +43,15 @@ Edit `nfsu.conf` and `news.txt` to suit your needs.
 
 After first start `server.log` should be created. After first user login a database `rusers.dat` with users should be created.
 
+### Port forwarding
+
+The server requires the following ports to be forwarded:
+
+* 10900 TCP
+* 10901 TCP
+* 10980 TCP
+* 10800 TCP/UDP
+
 
 ## Client Configuration
 
@@ -52,7 +61,7 @@ After first start `server.log` should be created. After first user login a datab
 
 3. Run the game &rarr; Select `Play Online` &rarr; Create a new profile, agree with rules and click `Use Profile`
 
-After a login you have to select car and join a room to create/join a game.
+After a login you have to select car and join a room to create/join a game. Note that hosting a lobby requires port 3658 UDP to be forwarded.
 
 ![NFSU Lobby](http://i.imgur.com/ntGM3VF.jpg)
 
